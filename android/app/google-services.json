@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845932572618",
+    "project_id": "o-messeging-chat-app",
+    "storage_bucket": "o-messeging-chat-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845932572618:android:79185d8d1c4e686430a933",
+        "android_client_info": {
+          "package_name": "com.example.o_messaging_chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEgP9mbnJYfQAxERYLjooUlXd4EyvrlVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
