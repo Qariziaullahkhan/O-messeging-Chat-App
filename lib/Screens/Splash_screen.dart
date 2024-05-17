@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:o_messaging_chat_app/API/Api.dart';
+import 'package:o_messaging_chat_app/Screens/Home_screen.dart';
 
 import '../main.dart';
 import '../widgets/Custom_Appbar.dart';
@@ -16,12 +19,38 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-Future.delayed(Duration(seconds: 5),(){
-  Navigator.of(context).push(MaterialPageRoute(builder: (context){
-    return const LoginScreen();
-  }));
-});
+
     super.initState();
+      Future.delayed(const Duration(seconds: 3), () {
+      //EXIT FULL SCREEN
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(systemNavigationBarColor: Colors.white, statusBarColor: Colors.deepPurple.shade300),
+      );
+
+      if(APIS.auth.currentUser != null){
+        //Printing User Credentials
+        print('\nUser: ${APIS.auth.currentUser}');
+        //Navigate to HomeScreen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const HomeScreen(),
+          ),
+        );
+
+      }else
+        {
+          //Navigate to HomeScreen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const LoginScreen(),
+            ),
+          );
+        }
+
+    });
   }
  
   @override

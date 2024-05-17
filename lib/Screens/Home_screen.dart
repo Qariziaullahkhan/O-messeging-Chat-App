@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:o_messaging_chat_app/API/Api.dart';
+import 'package:o_messaging_chat_app/Models/user_model.dart';
+import 'package:o_messaging_chat_app/Screens/profile_screen.dart';
 import 'package:o_messaging_chat_app/widgets/chat_user_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _Home_ScreenState extends State<HomeScreen> {
+    List<ChatUser> _list = [];
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -23,7 +27,10 @@ class _Home_ScreenState extends State<HomeScreen> {
       leading: const Icon(CupertinoIcons.home),
       actions: [
 IconButton(onPressed: (){}, icon: Icon(Icons.search)),
-IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
+IconButton(onPressed: (){
+
+  Navigator.push(context, MaterialPageRoute(builder: (_)=>  ProfileScreen(user: _list[0])));
+}, icon: Icon(Icons.more_vert)),
 
 
       ],
@@ -34,21 +41,33 @@ IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
     },
     child: Icon(Icons.add_comment_rounded),
     ),
-    body: StreamBuilder(stream: APIS.firestore.collection("users").snapshots(), 
+    body: StreamBuilder(stream: APIS.getAllusers(),
     builder: (context, snapshot) {
-      if(snapshot.hasData){
-        final data = snapshot.data?.docs;
+      switch(snapshot.connectionState){
+          case ConnectionState.waiting:
+              case ConnectionState.none:
+                return const Center(child: CircularProgressIndicator());
 
-        for(var i in data!){
-          print("Data: ${i.data()}");
-        }
-      }
-      return ListView.builder(
-      itemCount: 15,
-      itemBuilder: (context,index){
-return const ChatUserCard();
-      });
+            //Some or All data is loaded then show it
+              case ConnectionState.active:
+              case ConnectionState.done:
+               final list = [];
+        final data = snapshot.data?.docs;
+        _list =
       
+                          data?.map((e) => ChatUser.fromJson(e.data())) 
+                              .toList() ?? [];
+        if(list.isNotEmpty){
+return ListView.builder(
+      itemCount: list.length,
+      itemBuilder: (context,index){
+return ChatUserCard(user: list[index],);
+      });
+        }else{
+          return const Text("No  connections found ");
+        }
+      
+      }
     },
     )
     );

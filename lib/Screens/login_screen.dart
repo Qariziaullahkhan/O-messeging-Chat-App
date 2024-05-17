@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:o_messaging_chat_app/API/Api.dart';
 import 'package:o_messaging_chat_app/Helpers/dialogs.dart';
 
 import '../main.dart';
@@ -27,19 +28,29 @@ class _Login_ScreenState extends State<LoginScreen> {
   }
    _Handlegooglebtnclikc(){
  Dialogs.showProgressIndicator(context);
-signInWithGoogle().then((User) {
+signInWithGoogle().then((User) async{
   Navigator.pop(context);
   if(User != null){
 print("user :${User.user}");
 print("additional Information: ${User.additionalUserInfo}");
+if(( await APIS.userExists())){
+ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return const HomeScreen();
+    }));
+}
+else{
+  APIS.createUser().then((value) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return const HomeScreen();
+    }));
+  });
+}
 
-Navigator.of(context).push(MaterialPageRoute(builder: 
-  (context){
-    return const HomeScreen();
-  }));
-  }
+  
 
-});
+}
+}
+);
   }
   Future<UserCredential?> signInWithGoogle() async {
   // Trigger the authentication flow

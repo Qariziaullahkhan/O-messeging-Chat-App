@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:o_messaging_chat_app/Screens/Splash_screen.dart';
+import 'package:o_messaging_chat_app/Screens/login_screen.dart';
+import 'package:o_messaging_chat_app/Screens/profile_screen.dart';
 late Size mq;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }
