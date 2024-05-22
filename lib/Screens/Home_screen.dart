@@ -17,7 +17,11 @@ class HomeScreen extends StatefulWidget {
 
 class _Home_ScreenState extends State<HomeScreen> {
     List<ChatUser> _list = [];
-
+@override
+void initState() {
+  APIS.getSelfInfo();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -29,7 +33,7 @@ class _Home_ScreenState extends State<HomeScreen> {
 IconButton(onPressed: (){}, icon: Icon(Icons.search)),
 IconButton(onPressed: (){
 
-  Navigator.push(context, MaterialPageRoute(builder: (_)=>  ProfileScreen(user: _list[0])));
+  Navigator.push(context, MaterialPageRoute(builder: (_)=>  ProfileScreen(user: APIS.me)));
 }, icon: Icon(Icons.more_vert)),
 
 
